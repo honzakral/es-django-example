@@ -1,0 +1,8 @@
+.*.swp
+*~
+*.py[co]
+.coverage
+*.egg-info
+dist
+*.egg
+db.sqlite3

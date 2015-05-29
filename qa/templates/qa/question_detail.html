@@ -1,0 +1,35 @@
+<h1>{{ object.title }}</h1>
+question by {{ object.owner.display_name }} on {{ object.creation_date|date }}, {{ object.creation_date|time }}
+{% if object.score %}
+    with score {{ object.score }}
+{% endif %}
+
+{{ object.body|safe }}
+
+{% for comment in object.get_comments %}
+    comment by {{ comment.owner.display_name }} on {{ comment.creation_date|date }}, {{ comment.creation_date|time }}
+    {% if comment.score %}
+        with score {{ comment.score }}
+    {% endif %}
+    
+    <p>{{ comment.text|safe }}</p>
+{% endfor %}
+
+{% for answer in object.get_answers %}
+    answer by {{ answer.owner.display_name }} on {{ answer.creation_date|date }}, {{ answer.creation_date|time }}
+    {% if answer.score %}
+        with score {{ answer.score }}
+    {% endif %}
+
+    {{answer.body|safe}}
+
+    {% for comment in answer.get_comments %}
+        comment by {{ comment.owner.display_name }} on {{ comment.creation_date|date }}, {{ comment.creation_date|time }}
+        {% if comment.score %}
+            with score {{ comment.score }}
+        {% endif %}
+        
+        <p>{{ comment.text|safe }}</p>
+    {% endfor %}
+
+{% endfor %}

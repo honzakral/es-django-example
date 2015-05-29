@@ -1,0 +1,5 @@
+{% for question in object_list %}
+  <h2><a href="{% url "qa-question" pk=question.pk %}">{{ question.title }}</a></h2>
+  {{ question.creation_date|date }}
+  {{ question.creation_date|time }}
+{% endfor %}
