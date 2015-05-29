@@ -1,8 +1,15 @@
 <h1>{{ object.title }}</h1>
+
 question by {{ object.owner.display_name }} on {{ object.creation_date|date }}, {{ object.creation_date|time }}
+
 {% if object.score %}
     with score {{ object.score }}
 {% endif %}
+
+tags: 
+{% for t in object.get_tags %}
+    {{ t }}
+{% endfor %}
 
 {{ object.body|safe }}
 
@@ -14,8 +21,10 @@ question by {{ object.owner.display_name }} on {{ object.creation_date|date }}, 
     
     <p>{{ comment.text|safe }}</p>
 {% endfor %}
+<hr>
 
 {% for answer in object.get_answers %}
+    {% ifequal answer.pk object.accepted_answer_id %}ACCEPTED{% endifequal %}
     answer by {{ answer.owner.display_name }} on {{ answer.creation_date|date }}, {{ answer.creation_date|time }}
     {% if answer.score %}
         with score {{ answer.score }}

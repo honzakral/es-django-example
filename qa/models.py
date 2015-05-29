@@ -1,4 +1,8 @@
+import re
+
 from django.db import models
+
+tag_re = re.compile(r'<([^>]+)>')
 
 class User(models.Model):
     email = models.CharField(max_length=200)
@@ -43,6 +47,8 @@ class Question(Post):
     def get_answers(self):
         return self.answer_set.order_by('-creation_date')
 
+    def get_tags(self):
+        return tag_re.findall(self.tags)
 
 class Answer(Post):
     question = models.ForeignKey(Question)
