@@ -1,44 +1,50 @@
-<h1>{{ object.title }}</h1>
+{% extends "base.html" %}
 
-question by {{ object.owner.display_name }} on {{ object.creation_date|date }}, {{ object.creation_date|time }}
+{% block "title" %}
+  {{ object.title }}
+{% endblock %}
 
-{% if object.score %}
-    with score {{ object.score }}
-{% endif %}
+{% block "body" %}
+  <section class="question detail">
+    <section class="header">
+      <h1>{{ object.title }}</h1>
+      <p class="meta">
+        question by <span class="author">{{ object.owner.display_name }}</span>
+        on <span class="date">{{ object.creation_date|date }}, {{ object.creation_date|time }}</span>
+        {% for t in object.get_tags %}
+          <span class="tag">{{ t }}</span>
+        {% endfor %}
+      </p>
+    </section>
 
-tags: 
-{% for t in object.get_tags %}
-    {{ t }}
-{% endfor %}
+    <section class="body">
+      {{ object.body|safe }}
+    </section>
 
-{{ object.body|safe }}
+    {% include "qa/comments.html" with comments=object.get_comments%}
 
-{% for comment in object.get_comments %}
-    comment by {{ comment.owner.display_name }} on {{ comment.creation_date|date }}, {{ comment.creation_date|time }}
-    {% if comment.score %}
-        with score {{ comment.score }}
-    {% endif %}
-    
-    <p>{{ comment.text|safe }}</p>
-{% endfor %}
-<hr>
+  </section>
 
-{% for answer in object.get_answers %}
-    {% ifequal answer.pk object.accepted_answer_id %}ACCEPTED{% endifequal %}
-    answer by {{ answer.owner.display_name }} on {{ answer.creation_date|date }}, {{ answer.creation_date|time }}
-    {% if answer.score %}
-        with score {{ answer.score }}
-    {% endif %}
+  <section class="answers">
+    {% for answer in object.get_answers %}
+      <div class="answer">
+        <p class="meta">
+          {% ifequal answer.pk object.accepted_answer_id %}
+            <strong class="accepted">ACCEPTED</strong>
+          {% endifequal %}
+          answer by <span class="author">{{ answer.owner.display_name }}</span>
+          on <span class="date">{{ answer.creation_date|date }}, {{ answer.creation_date|time }}</span>
+          {% if answer.score %}
+              with score {{ answer.score }}
+          {% endif %}
+        </p>
 
-    {{answer.body|safe}}
+        <div class="body">
+          {{answer.body|safe}}
+        </div>
 
-    {% for comment in answer.get_comments %}
-        comment by {{ comment.owner.display_name }} on {{ comment.creation_date|date }}, {{ comment.creation_date|time }}
-        {% if comment.score %}
-            with score {{ comment.score }}
-        {% endif %}
-        
-        <p>{{ comment.text|safe }}</p>
+        {% include "qa/comments.html" with comments=answer.get_comments%}
+      </div>
     {% endfor %}
-
-{% endfor %}
+  </section>
+{% endblock %}

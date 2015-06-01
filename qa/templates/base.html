@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>
+    {% block "title" %}Stack Exchange{% endblock %}
+  </title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <style>
+    body {
+      color: #222;
+      background: #fff;
+      font-family: Palatino, "Palatino Linotype", Cambria, Times, serif;
+      margin: 2em 4em;
+    }
+
+    p {
+      margin: 0 0 0.5em 0;
+    }
+
+    a {
+      color: #222;
+    }
+
+    .question {
+      margin: 0 0 1em 0;
+      padding: 0 0 1em 0;
+    }
+
+    .question.detail {
+      margin: 0 0 2em 0;
+      border-bottom: 2px solid #999;
+    }
+
+    .pagination {
+      padding: 1em 0 0 0;
+      font-size: 90%;
+      border-top: 2px solid #999;
+    }
+
+    .question .header {
+      font-size: 90%;
+    }
+
+    .question h1,
+    .question h2 {
+      color: #333;
+      font-family: "Roboto", Corbel, Avenir, sans-serif;
+      font-weight: 100;
+      margin: 0 0 0.25em 0;
+    }
+
+    .question h1 {
+      font-size: 26px;
+    }
+
+    .question h2 {
+      font-size: 20px;
+    }
+
+    .pagination,
+    .question .meta {
+      color: #666;
+    }
+
+    .pagination .current,
+    .question .meta .author {
+      font-weight: bolder;
+    }
+
+    .question .meta .tag {
+      font-size: 80%;
+      font-family: "Roboto", Corbel, Avenir, sans-serif;
+      background: #e0e0e0;
+      padding: 0.25em 0.5em;
+      border-radius: 0.75em;
+    }
+
+    .question .body {
+      background: #fafafa;
+      margin-top: 1em;
+      padding: 0.5em;
+      border-radius: 0.5em;
+    }
+
+    .question .body blockquote,
+    .answer .body blockquote {
+      position: relative;
+      padding: 0 0 0 2em;
+      margin: 1.5em 0 1.5em 0;
+    }
+
+    .question .body blockquote:before,
+    .answer .body blockquote:before {
+      color: #d0d0d0;
+      content: "”";
+      font-family: Georgia, serif;
+      font-size: 400%;
+      position: absolute;
+      left: 0;
+      top: -0.11em;
+      text-shadow: 0 1px 0px rgba(0,0,0,0.4);
+    }
+
+    .answer .comments,
+    .question .comments {
+      font-size: 90%;
+    }
+
+    .answer .comment,
+    .question .comment {
+      border-top: 1px solid #d0d0d0;
+      margin: 0.5em 0 0 0;
+      padding: 0.5em 0 0 0;
+    }
+
+    .answer .comment .body,
+    .question .comment .body {
+      background: transparent;
+      padding: 0;
+      margin: 0;
+    }
+
+    .answer {
+      margin: 0 0 1em 0;
+    }
+
+    .answer .accepted {
+      font-size: 90%;
+      font-weight: bolder;
+    }
+
+    .answer .meta .author {
+      font-weight: bolder;
+    }
+
+    .answer .body {
+      background: #fcfcfc;
+      margin-top: 1em;
+      padding: 0.5em;
+      border-radius: 0.5em;
+    }
+
+  </style>
+</head>
+<body>
+  {% block "body" %} {% endblock %}
+</body>
+</html>

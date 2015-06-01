@@ -1,5 +1,36 @@
-{% for question in object_list %}
-  <h2><a href="{% url "qa-question" pk=question.pk %}">{{ question.title }}</a></h2>
-  {{ question.creation_date|date }}
-  {{ question.creation_date|time }}
-{% endfor %}
+{% extends "base.html" %}
+
+{% block "body" %}
+  <section class="questions">
+    {% for question in object_list %}
+      <div class="question">
+        <h2>
+            <a href="{% url "qa-question" pk=question.pk %}">{{ question.title }}</a>
+        </h2>
+        <div class="header">
+          <p class="meta">
+            by <span class="author">{{ question.owner.display_name }}</span>
+            on <span class="date">{{ question.creation_date|date }}, {{ question.creation_date|time }}</span>
+            {% for t in question.get_tags %}
+                <span class="tag">{{ t }}</span>
+            {% endfor %}
+          </p>
+        </div>
+      </div>
+    {% endfor %}
+  </section>
+
+  <section class="pagination">
+    <span class="step-links">
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+      {% endif %}
+
+      Page <span class="current">{{ page_obj.number }}</span> of {{ paginator.num_pages }}.
+
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">next</a>
+     {% endif %}
+    </span>
+  </section>
+{% endblock %}
