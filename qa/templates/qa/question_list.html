@@ -23,13 +23,15 @@
   <section class="pagination">
     <span class="step-links">
       {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        <a href="?page={{ page_obj.previous_page_number }}">&lt; previous</a>
       {% endif %}
 
-      Page <span class="current">{{ page_obj.number }}</span> of {{ paginator.num_pages }}.
+      {% for p in paginator.page_range %}
+        {% ifequal p page_obj.number %}<span class="current">{{ p }}</span>{% else %}{{ p }}{% endifequal %}
+      {% endfor %}
 
       {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">next</a>
+        <a href="?page={{ page_obj.next_page_number }}">next &gt;</a>
      {% endif %}
     </span>
   </section>
