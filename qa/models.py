@@ -25,7 +25,7 @@ class Post(models.Model):
     comment_count = models.PositiveIntegerField()
 
     def get_comments(self):
-        return self.comments.order_by('-creation_date')
+        return self.comments.order_by('creation_date')
 
     class Meta:
         abstract = True
