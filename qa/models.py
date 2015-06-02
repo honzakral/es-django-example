@@ -27,6 +27,15 @@ class Post(models.Model):
     def get_comments(self):
         return self.comments.order_by('creation_date')
 
+    @classmethod
+    def get_es_mapping(cls):
+        return {}
+
+    def to_search(self):
+        return {
+            '_id': self.pk,
+        }
+
     class Meta:
         abstract = True
 
@@ -50,8 +59,22 @@ class Question(Post):
     def get_tags(self):
         return tag_re.findall(self.tags)
 
+    def to_search(self):
+        d = super().to_search()
+        d.update({
+            'tags': self.get_tags(),
+            'title': self.title,
+        })
+        return d
+
 class Answer(Post):
     question = models.ForeignKey(Question)
+
+    def to_search(self):
+        d = super().to_search()
+        d.update({
+        })
+        return d
 
 
 class Comment(models.Model):

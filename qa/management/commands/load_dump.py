@@ -39,7 +39,7 @@ class Command(BaseCommand):
             cnt += 1
             if cnt % report_every:
                 print('.', end='', flush=True)
-        print('DONE\nLoaded %d %s in %d seconds'% (
+        print('DONE\nLoaded %d %s in %.2f seconds'% (
             cnt, name, time.time() - start
         ))
 
