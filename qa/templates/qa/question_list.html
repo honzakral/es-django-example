@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block "body" %}
+<div id="content" class="list">
   <section class="questions">
     {% for question in object_list %}
       <div class="question">
@@ -12,7 +13,7 @@
             by <span class="author">{{ question.owner.display_name }}</span>
             on <span class="date">{{ question.creation_date|date }}, {{ question.creation_date|time }}</span>
             {% for t in question.get_tags %}
-                <span class="tag">{{ t }}</span>
+                <span class="tag"><a href="#">{{ t }}</a></span>
             {% endfor %}
           </p>
         </div>
@@ -23,16 +24,17 @@
   <section class="pagination">
     <span class="step-links">
       {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}">&lt; previous</a>
+        <a href="?page={{ page_obj.previous_page_number }}" class="next">&laquo; previous</a>
       {% endif %}
 
       {% for p in paginator.page_range %}
-        {% ifequal p page_obj.number %}<span class="current">{{ p }}</span>{% else %}{{ p }}{% endifequal %}
+        <a href="?page={{ p }}"{% ifequal p page_obj.number %} class="current"{% endifequal %}>{{ p }}</a>
       {% endfor %}
 
       {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">next &gt;</a>
+        <a href="?page={{ page_obj.next_page_number }}" class="next">next &raquo;</a>
      {% endif %}
     </span>
   </section>
+</div>
 {% endblock %}

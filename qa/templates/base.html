@@ -53,10 +53,6 @@
       border-bottom: 1px solid #999;
     }
 
-    .pagination {
-      padding: 1em 0 0 0;
-    }
-
     .question .header {
       font-size: 90%;
     }
@@ -81,15 +77,8 @@
       font-size: 26px;
     }
 
-    .pagination,
     .question .meta {
       color: #666;
-    }
-
-    .pagination .current {
-      color: #000;
-      font-weight: bolder;
-      margin: 0 0.25em 0 0.25em;
     }
 
     .question .meta .tags {
@@ -223,11 +212,33 @@
       padding-top: 0.5em;
     }
  
-  </style>
+    .list .pagination {
+      text-align: center;
+      margin: 1em 0 1em 0;
+    }
+
+    .list .pagination a {
+      color: #222;
+      background: #f8f8f8;
+      font-weight: normal;
+      text-decoration: none;
+      padding: 0.25em 0.5em;
+      border-radius: 0.25em;
+    }
+
+    .list .pagination a.current {
+      color: #f8f8f8;
+      background: #444;
+      font-weight: bolder;
+    }
+
+    .list .pagination a:hover {
+      color: #f8f8f8;
+      background: #222;
+    }
+</style>
 </head>
 <body>
-  <div id="content">
-    {% block "body" %} {% endblock %}
-  </div>
+  {% block "body" %} {% endblock %}
 </body>
 </html>
