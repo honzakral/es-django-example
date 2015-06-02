@@ -31,7 +31,7 @@
   </section>
 
   <section class="answers">
-    {% for answer in object.get_answers %}
+    {% for answer in object.answers %}
       <div class="answer{% ifequal answer.pk object.accepted_answer_id %} accepted{% endifequal %}">
         <p class="meta">
           {% ifequal answer.pk object.accepted_answer_id %}Accepted a{% else %}A{% endifequal %}nswer by

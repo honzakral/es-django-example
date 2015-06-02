@@ -54,7 +54,8 @@ class Question(Post):
             related_name='last_edited_questions')
     last_edit_date  = models.DateTimeField(null=True, blank=True)
 
-    def get_answers(self):
+    @property
+    def answers(self):
         return self.answer_set.order_by('-creation_date')
 
     @property
