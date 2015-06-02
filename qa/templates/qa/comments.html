@@ -1,9 +1,9 @@
 <section class="comments">
   {% for comment in comments %}
     <div class="comment">
-      <div class="author">
+      <div class="meta">
         <p>
-          comment by <span class="author">{{ comment.owner.display_name }}</span>
+          comment by <span class="author"><a href="#">{{ comment.owner.display_name }}</a></span>
           on <span class="date">{{ comment.creation_date|date }}, {{ comment.creation_date|time }}</span>
           {% if comment.score %}
               with score {{ comment.score }}

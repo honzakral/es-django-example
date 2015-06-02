@@ -8,32 +8,53 @@
   <style>
     body {
       color: #222;
-      background: #fff;
-      font-family: Palatino, "Palatino Linotype", Cambria, Times, serif;
-      margin: 2em 4em;
+      background: #f8f8f8;
+      font-family: sans-serif;
+      line-height: 132%;
+      margin: 0;
     }
 
     p {
       margin: 0 0 0.5em 0;
     }
 
+    p.meta, .meta p {
+      margin-bottom: 0;
+    }
+
     a {
       color: #222;
     }
 
-    .question {
-      margin: 0 0 1em 0;
-      padding: 0 0 1em 0;
+    #content {
+      background: #fff;
+      width: 50em;
+      padding: 2em 4em;
+      margin: 0 auto;
     }
 
-    .question.detail {
-      margin: 0 0 2em 0;
-      border-bottom: 2px solid #999;
+    .meta .author {
+      font-weight: bolder;
+    }
+    .meta .author a {
+      text-decoration: none;
+    }
+    .meta .author a:hover {
+      text-decoration: underline;
+    }
+
+    .question {
+      margin: 0 0 1em 0;
+      padding: 0 0 0 0;
+    }
+
+    .questions .question {
+      padding: 0 0 1em 0;
+      border-bottom: 1px solid #999;
     }
 
     .pagination {
       padding: 1em 0 0 0;
-      border-top: 2px solid #999;
     }
 
     .question .header {
@@ -42,18 +63,22 @@
 
     .question h1,
     .question h2 {
-      color: #333;
-      font-family: "Roboto", Corbel, Avenir, sans-serif;
+      color: #444;
+      font-family: serif;
       font-weight: 100;
-      margin: 0 0 0.25em 0;
+      letter-spacing: -1px;
+      padding: 0 0 0.5em 0;
+      margin: 0 0 0.5em 0;
+      text-shadow: 1px 1px 0px rgba(0,0,0,0.2);
     }
 
     .question h1 {
-      font-size: 26px;
+      font-size: 32px;
+      border-bottom: 1px solid #d0d0d0;
     }
 
     .question h2 {
-      font-size: 20px;
+      font-size: 26px;
     }
 
     .pagination,
@@ -67,23 +92,38 @@
       margin: 0 0.25em 0 0.25em;
     }
 
-    .question .meta .author {
-      font-weight: bolder;
+    .question .meta .tags {
+      display: inline-block;
+      float: right;
     }
 
     .question .meta .tag {
       font-size: 80%;
-      font-family: "Roboto", Corbel, Avenir, sans-serif;
+      font-family: sans-serif;
       background: #e0e0e0;
       padding: 0.25em 0.5em;
       border-radius: 0.75em;
     }
 
+    .question .meta .tag a {
+      text-decoration: none;
+    }
+
+    .question .meta .tag:hover {
+      color: #e0e0e0;
+      background: #666;
+    }
+
+    .question .meta .tag:hover a {
+      color: #e0e0e0;
+    }
+
     .question .body {
-      background: #fafafa;
-      margin-top: 1em;
-      padding: 0.5em;
-      border-radius: 0.5em;
+      font-size: 110%;
+      line-height: 135%;
+      margin-top: 0.75em;
+      padding-bottom: 0.75em;
+      border-bottom: 1px dotted #d0d0d0;
     }
 
     .question .body blockquote,
@@ -112,25 +152,47 @@
 
     .answer .comment,
     .question .comment {
-      border-top: 1px solid #d0d0d0;
-      margin: 0.5em 0 0 0;
-      padding: 0.5em 0 0 0;
+      margin: 0;
+      padding: 0.75em 0 0 0;
+      border-top: 1px dotted #d0d0d0;
+    }
+
+    .answer .comment:first-child,
+    .question .comment:first-child {
+      border-top: none;
+    }
+
+    .answer .comment .meta,
+    .question .comment .meta {
+      font-size: 95%;
     }
 
     .answer .comment .body,
     .question .comment .body {
+      font-size: 100%;
       background: transparent;
       padding: 0;
       margin: 0;
+      border: none;
     }
 
     .answer {
       margin: 0 0 1em 0;
     }
 
-    .answer .accepted {
-      font-size: 90%;
-      font-weight: bolder;
+    .answer:last-child {
+      border: none;
+    }
+
+    .answer .meta {
+      color: #fff;
+      padding: 0.3em 0.5em 0.25em 0.5em;
+      background: #222 !important;
+      border-radius: 0.15em;
+    }
+
+    .answer .meta * {
+      color: #fff;
     }
 
     .answer .meta .author {
@@ -138,15 +200,34 @@
     }
 
     .answer .body {
-      background: #fcfcfc;
-      margin-top: 1em;
-      padding: 0.5em;
-      border-radius: 0.5em;
+      line-height: 140%;
+      margin: 0.5em 0 0 0;
+      padding: 0.25em 0.5em;
+      border-radius-bottom-left: 0.15em;
+      border-radius-bottom-right: 0.15em;
     }
 
+    .answer.accepted .meta:before {
+      color: #36e613;
+      content: "\2713";
+    }
+
+    .answer.accepted .meta {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    .answer.accepted .body {
+      background: #fafafa;
+      margin-top: 0;
+      padding-top: 0.5em;
+    }
+ 
   </style>
 </head>
 <body>
-  {% block "body" %} {% endblock %}
+  <div id="content">
+    {% block "body" %} {% endblock %}
+  </div>
 </body>
 </html>
