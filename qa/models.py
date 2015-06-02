@@ -24,8 +24,9 @@ class Post(models.Model):
     body = models.TextField()
     comment_count = models.PositiveIntegerField()
 
-    def get_comments(self):
-        return self.comments.order_by('creation_date')
+    @property
+    def comments(self):
+        return self.comment_set.order_by('creation_date')
 
     @classmethod
     def get_es_mapping(cls):
@@ -42,7 +43,7 @@ class Post(models.Model):
 
 class Question(Post):
     answer_count = models.PositiveIntegerField()
-    tags = models.TextField()
+    tags_string = models.TextField()
     title = models.CharField(max_length=1024)
     favorite_count = models.PositiveIntegerField()
     view_count = models.PositiveIntegerField()
@@ -56,13 +57,14 @@ class Question(Post):
     def get_answers(self):
         return self.answer_set.order_by('-creation_date')
 
-    def get_tags(self):
-        return tag_re.findall(self.tags)
+    @property
+    def tags(self):
+        return tag_re.findall(self.tags_string)
 
     def to_search(self):
         d = super().to_search()
         d.update({
-            'tags': self.get_tags(),
+            'tags': self.tags,
             'title': self.title,
         })
         return d
@@ -88,9 +90,9 @@ class Comment(models.Model):
 
 
 class QuestionComment(Comment):
-    post = models.ForeignKey(Question, related_name='comments')
+    post = models.ForeignKey(Question, related_name='comment_set')
 
 
 class AnswerComment(Comment):
-    post = models.ForeignKey(Answer, related_name='comments')
+    post = models.ForeignKey(Answer, related_name='comment_set')
 

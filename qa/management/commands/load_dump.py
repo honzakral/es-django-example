@@ -179,7 +179,7 @@ class Command(BaseCommand):
 
             if isinstance(post, Question):
                 post.answer_count = data['AnswerCount']
-                post.tags = data['Tags']
+                post.tags_string = data['Tags']
                 post.title = data['Title']
                 post.favorite_count = data.get('FavoriteCount', 0)
                 post.view_count = data['ViewCount']

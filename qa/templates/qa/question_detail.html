@@ -14,7 +14,7 @@
         on <span class="date">{{ object.creation_date|date }}, {{ object.creation_date|time }}</span>
         {% if object.tags %}
           <span class="tags">
-            {% for t in object.get_tags %}
+            {% for t in object.tags %}
               <span class="tag"><a href="#">{{ t }}</a></span>
             {% endfor %}
           </span>
@@ -26,7 +26,7 @@
       {{ object.body|safe }}
     </section>
 
-    {% include "qa/comments.html" with comments=object.get_comments%}
+    {% include "qa/comments.html" with comments=object.comments%}
 
   </section>
 
@@ -46,7 +46,7 @@
           {{answer.body|safe}}
         </div>
 
-        {% include "qa/comments.html" with comments=answer.get_comments%}
+        {% include "qa/comments.html" with comments=answer.comments%}
       </div>
     {% endfor %}
   </section>

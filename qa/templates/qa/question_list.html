@@ -12,7 +12,7 @@
           <p class="meta">
             by <span class="author">{{ question.owner.display_name }}</span>
             on <span class="date">{{ question.creation_date|date }}, {{ question.creation_date|time }}</span>
-            {% for t in question.get_tags %}
+            {% for t in question.tags %}
                 <span class="tag"><a href="#">{{ t }}</a></span>
             {% endfor %}
           </p>
