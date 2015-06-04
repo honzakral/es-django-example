@@ -6,7 +6,7 @@
     {% for question in object_list %}
       <div class="question">
         <h2>
-            <a href="{% url "qa-question" pk=question.pk %}">{{ question.title }}</a>
+            <a href="{% url "qa-question" pk=question.id %}">{{ question.title }}</a>
         </h2>
         <div class="header">
           <p class="meta">
