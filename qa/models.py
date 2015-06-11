@@ -51,6 +51,7 @@ class Post(models.Model):
             'body': self.body,
             'popularity': self.score,
             'comments': [c.to_search() for c in self.comments],
+            'comment_count': self.comment_count,
         }
 
     class Meta:
