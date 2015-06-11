@@ -1,6 +1,9 @@
 import re
 
 from django.db import models
+from django.db.models.signals import post_save, pre_delete
+
+from .search import Question as QuestionDoc, Answer as AnswerDoc
 
 tag_re = re.compile(r'<([^>]+)>')
 
@@ -15,6 +18,12 @@ class User(models.Model):
     votes_up = models.PositiveIntegerField()
     votes_down = models.PositiveIntegerField()
     age = models.PositiveIntegerField()
+
+    def to_search(self):
+        return {
+            'display_name': self.display_name,
+            'url': self.url,
+        }
 
 class Post(models.Model):
     owner = models.ForeignKey(User)
@@ -35,6 +44,13 @@ class Post(models.Model):
     def to_search(self):
         return {
             '_id': self.pk,
+            'owner': self.owner.to_search(),
+            'id': self.pk,
+            'creation_date': self.creation_date,
+            'last_activity_date': self.last_activity_date,
+            'body': self.body,
+            'popularity': self.score,
+            'comments': [c.to_search() for c in self.comments],
         }
 
     class Meta:
@@ -67,18 +83,24 @@ class Question(Post):
         d.update({
             'tags': self.tags,
             'title': self.title,
+            'favorite_count': self.favorite_count,
+            'view_count': self.view_count,
+            'answer_count': self.answer_count,
+            'has_accepted_answer': bool(self.accepted_answer),
         })
-        return d
+        if self.last_editor:
+            d.update({
+                'last_editor': self.last_editor.to_search(),
+                'last_edit_date': self.last_edit_date
+            })
+        return QuestionDoc(meta={'id': d.pop('_id')}, **d)
 
 class Answer(Post):
     question = models.ForeignKey(Question)
 
     def to_search(self):
         d = super().to_search()
-        d.update({
-        })
-        return d
-
+        return AnswerDoc(meta={'id': d.pop('_id'), 'parent': self.question_id}, **d)
 
 class Comment(models.Model):
     owner = models.ForeignKey(User)
@@ -89,6 +111,12 @@ class Comment(models.Model):
     class Meta:
         abstract = True
 
+    def to_search(self):
+        return {
+            'creation_date': self.creation_date,
+            'text': self.text,
+        }
+
 
 class QuestionComment(Comment):
     post = models.ForeignKey(Question, related_name='comment_set')
@@ -96,4 +124,16 @@ class QuestionComment(Comment):
 
 class AnswerComment(Comment):
     post = models.ForeignKey(Answer, related_name='comment_set')
+
+
+def update_search(instance, **kwargs):
+    instance.to_search().save()
+
+def remove_from_search(instance, **kwargs):
+    instance.to_search().delete()
+
+post_save.connect(update_search, sender=Answer)
+post_save.connect(update_search, sender=Question)
+pre_delete.connect(remove_from_search, sender=Answer)
+pre_delete.connect(remove_from_search, sender=Question)
 

@@ -10,18 +10,13 @@ from elasticsearch_dsl.connections import connections
 from elasticsearch.helpers import streaming_bulk
 
 from qa.models import Question, Answer
+from qa.search import index
 
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         self.es = connections.get_connection()
-        self.es.indices.delete(index=settings.ES_INDEX, ignore=404)
-        self.es.indices.create(index=settings.ES_INDEX, body={
-            'mappings': {
-                'question': Question.get_es_mapping(),
-                'answer': Answer.get_es_mapping(),
-            },
-            'settings': getattr(settings, 'ES_INDEX_SETTINGS', {}),
-        })
+        index.delete(ignore=404)
+        index.create()
         self.verbose_run(Question)
         self.verbose_run(Answer)
 
@@ -32,7 +27,7 @@ class Command(BaseCommand):
         cnt = 0
         for _  in streaming_bulk(
                 self.es,
-                (m.to_search() for m in model.objects.all().iterator()),
+                (m.to_search().to_dict(True) for m in model.objects.all().iterator()),
                 index=settings.ES_INDEX,
                 doc_type=name.lower(),
             ):
