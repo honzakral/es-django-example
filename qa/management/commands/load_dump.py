@@ -6,8 +6,9 @@ from xml.etree import cElementTree
 from dateutil import parser as date_parser
 
 from django.core.management.base import BaseCommand
+from django.db.models.signals import post_save
 
-from qa.models import User, Question, Answer, QuestionComment, AnswerComment
+from qa.models import User, Question, Answer, QuestionComment, AnswerComment, update_search
 
 POST_TYPES = {
     1: Question,
@@ -20,6 +21,8 @@ class Command(BaseCommand):
             help='Directory containing the XML files.')
 
     def handle(self, **options):
+        post_save.disconnect(update_search, sender=Question)
+        post_save.disconnect(update_search, sender=Answer)
         self.dir = options['dump_directory']
         self._answers = set()
         self._questions = set()
