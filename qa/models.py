@@ -87,7 +87,7 @@ class Question(Post):
             'favorite_count': self.favorite_count,
             'view_count': self.view_count,
             'answer_count': self.answer_count,
-            'has_accepted_answer': bool(self.accepted_answer),
+            'has_accepted_answer': bool(self.accepted_answer_id),
         })
         if self.last_editor:
             d.update({
