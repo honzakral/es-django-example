@@ -19,3 +19,5 @@ To install::
 
     # index all data into elasticsearch
     python manage.py index_data
+
+To perform search just go to ``http://localhost:8000/search/?tags=flavor&tags=beans&q=bitterness``.
