@@ -113,7 +113,9 @@ class Comment(models.Model):
 
     def to_search(self):
         return {
+            'owner': self.owner.to_search(),
             'creation_date': self.creation_date,
+            'popularity': self.score,
             'text': self.text,
         }
 
