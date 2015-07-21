@@ -1,6 +1,7 @@
 from django.conf import settings
 
-from elasticsearch_dsl import DocType, Date, String, Nested, Object, Index, MetaField, analyzer
+from elasticsearch_dsl import DocType, Date, String, Nested, Object, Index, \
+    MetaField, analyzer, FacetedSearch, A, Q
 
 # user is repeated in several places, reuse a field definition
 user_field = Object(properties={
@@ -39,3 +40,30 @@ class Answer(Post):
 index = Index(settings.ES_INDEX)
 index.doc_type(Answer)
 index.doc_type(Question)
+
+
+class QASearch(FacetedSearch):
+    doc_types = [Question]
+    index = settings.ES_INDEX
+
+    fields = ['tags', 'title', 'body']
+
+    facets = {
+        'tags': A('terms',
+            field='tags'),
+
+        'months': A('date_histogram',
+            field='creation_date',
+            interval='month',
+            min_doc_count=0),
+    }
+
+    def query(self, search, query):
+        if not query:
+            return search
+        # query in tags, title and body for query
+        q = Q('multi_match', fields=['tags^10', 'title', 'body'], query=query)
+        # also find questions that have answers matching query
+        q |= Q('has_child', type='answer', query=Q('match', body=query))
+
+        return search.query(q)

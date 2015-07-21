@@ -2,18 +2,48 @@
 
 {% block "body" %}
 <div id="content" class="list">
+  <section class="search">
+    <form action="{% url "qa-search" %}" method="GET">
+      <ul>
+        {% for month, count, selected in search.facets.months %}
+          <li>
+            <input type="checkbox" name="months" id="months-{{ forloop.counter }}" value="{{ month.isoformat }}"{% if selected %} checked="true"{% endif %}>
+            <label for="months-{{ forloop.counter }}">{{ month|date:"F Y" }} ({{ count }})</label>
+          </li>
+        {% endfor %}
+      </ul>
+      <ul>
+        {% for t, count, selected in search.facets.tags %}
+          <li>
+            <input type="checkbox" name="tags" id="tags-{{ t}}" value="{{ t }}"{% if selected %} checked="true"{% endif %}>
+            <label for="tags-{{ t }}">{{ t }} ({{ count }})</label>
+          </li>
+        {% endfor %}
+      </ul>
+
+      <input type="text" name="q" value="{{ search.query_string|default:"" }}" />
+      <input type="submit" value="Search!">
+    </form>
+  </section>
+
   <section class="questions">
     {% for question in object_list %}
       <div class="question">
         <h2>
-            <a href="{% url "qa-question" pk=question.id %}">{{ question.title }}</a>
+            <a href="{% url "qa-question" pk=question.id %}">
+                {% if question.meta.highlight.title %}
+                    {{ question.meta.highlight.title.0|safe }}
+                {% else %}
+                    {{ question.title }}
+                {% endif %}
+            </a>
         </h2>
         <div class="header">
           <p class="meta">
             by <span class="author">{{ question.owner.display_name }}</span>
             on <span class="date">{{ question.creation_date|date }}, {{ question.creation_date|time }}</span>
             {% for t in question.tags %}
-                <span class="tag"><a href="#">{{ t }}</a></span>
+                <span class="tag"><a href="{% url "qa-search" %}?tags={{ t }}">{{ t }}</a></span>
             {% endfor %}
           </p>
         </div>

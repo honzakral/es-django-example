@@ -1,11 +1,11 @@
+from dateutil import parser
+
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.shortcuts import render
 
-from elasticsearch_dsl import Q
-
 from .models import Question
-from .search import Question as QuestionDoc
+from .search import QASearch
 
 class QuestionList(ListView):
     model = Question
@@ -17,18 +17,10 @@ class QuestionDetail(DetailView):
     model = Question
 
 def search(request):
-    # super hacky first-draft search
-    s = QuestionDoc.search()
-    if 'q' in request.GET:
-        query = request.GET['q']
-        # query in tags, title and body for query
-        q = Q('multi_match', fields=['tags^10', 'title', 'body'], query=query)
-        # also find questions that have answers matching query
-        q |= Q('has_child', type='answer', query=Q('match', body=query))
-        s = s.query(q)
-
-    # add tags filters
-    if 'tags' in request.GET:
-        s = s.filter('terms', tags=request.GET.getlist('tags'))
-
-    return render(request, 'qa/question_list.html', {'object_list': s.execute()})
+    filters = {
+        'tags': request.GET.getlist('tags', []),
+        'months': list(map(parser.parse, request.GET.getlist('months', []))),
+    }
+    s = QASearch(query=request.GET.get('q', None), filters=filters)
+    response = s.execute()
+    return render(request, 'qa/question_list.html', {'object_list': response.hits, 'search': response})
