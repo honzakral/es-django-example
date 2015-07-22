@@ -1,5 +1,6 @@
 from __future__ import print_function
 
+import sys
 import time
 from os.path import join
 from xml.etree import cElementTree
@@ -41,7 +42,8 @@ class Command(BaseCommand):
         for u in cmd_func():
             cnt += 1
             if cnt % report_every:
-                print('.', end='', flush=True)
+                print('.', end='')
+                sys.stdout.flush()
         print('DONE\nLoaded %d %s in %.2f seconds'% (
             cnt, name, time.time() - start
         ))

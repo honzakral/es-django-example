@@ -80,7 +80,7 @@ class Question(Post):
         return tag_re.findall(self.tags_string)
 
     def to_search(self):
-        d = super().to_search()
+        d = super(Question, self).to_search()
         d.update({
             'tags': self.tags,
             'title': self.title,
@@ -100,7 +100,7 @@ class Answer(Post):
     question = models.ForeignKey(Question)
 
     def to_search(self):
-        d = super().to_search()
+        d = super(Answer, self).to_search()
         return AnswerDoc(meta={'id': d.pop('_id'), 'parent': self.question_id}, **d)
 
 class Comment(models.Model):

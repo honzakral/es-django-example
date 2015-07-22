@@ -1,5 +1,6 @@
 from __future__ import print_function
 
+import sys
 import time
 
 from django.core.management.base import BaseCommand
@@ -33,7 +34,8 @@ class Command(BaseCommand):
             ):
             cnt += 1
             if cnt % report_every:
-                print('.', end='', flush=True)
+                print('.', end='')
+                sys.stdout.flush()
         print('DONE\nIndexing %d %s in %.2f seconds'% (
             cnt, name, time.time() - start
         ))
