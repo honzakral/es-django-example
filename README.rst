@@ -4,7 +4,7 @@ Stack
 Example application in Django using Elasticsearch DSL for search.
 
 It uses data from StackExchange dumps
-(https://archive.org/details/stackexchange) - download the torrend and just
+(https://archive.org/details/stackexchange) - download the torrent and just
 point the ``load_dump`` command to an unpacked data directory for a stack
 exchange server.
 
