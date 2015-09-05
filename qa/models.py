@@ -37,10 +37,6 @@ class Post(models.Model):
     def comments(self):
         return self.comment_set.order_by('creation_date')
 
-    @classmethod
-    def get_es_mapping(cls):
-        return {}
-
     def to_search(self):
         return {
             '_id': self.pk,
