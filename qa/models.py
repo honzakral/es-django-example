@@ -2,7 +2,6 @@ import re
 
 from django.db import models
 
-
 tag_re = re.compile(r'<([^>]+)>')
 
 class User(models.Model):
@@ -17,6 +16,11 @@ class User(models.Model):
     votes_down = models.PositiveIntegerField()
     age = models.PositiveIntegerField()
 
+    def to_search(self):
+        return {
+            'display_name': self.display_name,
+            'url': self.url,
+        }
 
 class Post(models.Model):
     owner = models.ForeignKey(User)
@@ -29,6 +33,19 @@ class Post(models.Model):
     @property
     def comments(self):
         return self.comment_set.order_by('creation_date')
+
+    def to_search(self):
+        return {
+            '_id': self.pk,
+            'owner': self.owner.to_search(),
+            'id': self.pk,
+            'creation_date': self.creation_date,
+            'last_activity_date': self.last_activity_date,
+            'body': self.body,
+            'popularity': self.score,
+            'comments': [c.to_search() for c in self.comments],
+            'comment_count': self.comment_count,
+        }
 
     class Meta:
         abstract = True
@@ -55,10 +72,25 @@ class Question(Post):
     def tags(self):
         return tag_re.findall(self.tags_string)
 
+    def to_search(self):
+        d = super(Question, self).to_search()
+        d.update({
+            'tags': self.tags,
+            'title': self.title,
+            'favorite_count': self.favorite_count,
+            'view_count': self.view_count,
+            'answer_count': self.answer_count,
+            'has_accepted_answer': bool(self.accepted_answer_id),
+        })
+        if self.last_editor:
+            d.update({
+                'last_editor': self.last_editor.to_search(),
+                'last_edit_date': self.last_edit_date
+            })
+        return d
 
 class Answer(Post):
     question = models.ForeignKey(Question)
-
 
 class Comment(models.Model):
     owner = models.ForeignKey(User)
