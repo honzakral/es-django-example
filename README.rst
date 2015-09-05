@@ -19,9 +19,4 @@ To install::
     # load SE dump into the DB
     python manage.py load_dump DIR
 
-    # index all data into elasticsearch
-    python manage.py index_data
-
-To perform search just go to ``http://localhost:8000/search/?tags=flavor&tags=beans&q=bitterness``.
-
 Sample data can be downloaded from https://www.dropbox.com/s/eeocipgw6y6pk89/coffee.zip?dl=0
