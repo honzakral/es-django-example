@@ -1,11 +1,9 @@
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.conf import settings
 from django.shortcuts import render
 
-from elasticsearch_dsl import Search
-
 from .models import Question
+from .search import Question as QuestionDoc
 
 class QuestionList(ListView):
     model = Question
@@ -17,14 +15,9 @@ class QuestionDetail(DetailView):
     model = Question
 
 def search(request):
-    s = Search(index=settings.ES_INDEX, doc_type='question')
+    s = QuestionDoc.search()
     if 'q' in request.GET:
-        s = s.query(
-            'multi_match',
-            fields=['title', 'tags', 'body'],
-            query=request.GET['q']
-        )
+        query = request.GET['q']
+        s = s.query('multi_match', fields=['tags^10', 'title', 'body'], query=query)
 
-    r = s.execute()
-
-    return render(request, 'qa/question_list.html', {'object_list': r.hits})
+    return render(request, 'qa/question_list.html', {'object_list': s.execute()})
