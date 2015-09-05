@@ -123,3 +123,16 @@ class QuestionComment(Comment):
 
 class AnswerComment(Comment):
     post = models.ForeignKey(Answer, related_name='comment_set')
+
+
+def update_search(instance, **kwargs):
+    instance.to_search().save()
+
+def remove_from_search(instance, **kwargs):
+    instance.to_search().delete()
+
+post_save.connect(update_search, sender=Answer)
+post_save.connect(update_search, sender=Question)
+pre_delete.connect(remove_from_search, sender=Answer)
+pre_delete.connect(remove_from_search, sender=Question)
+
