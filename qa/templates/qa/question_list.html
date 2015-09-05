@@ -2,12 +2,18 @@
 
 {% block "body" %}
 <div id="content" class="list">
+    <form action="{% url "qa-search" %}" method="GET">
+      <input type="text" name="q" value="{{ search.query_string|default:"" }}" />
+      <input type="submit" value="Search!">
+    </form>
+  </section>
+
   <section class="questions">
     {% for question in object_list %}
       <div class="question">
         <h2>
             <a href="{% url "qa-question" pk=question.id %}">
-              {{ question.title }}
+                {{ question.title }}
             </a>
         </h2>
         <div class="header">
@@ -15,7 +21,7 @@
             by <span class="author">{{ question.owner.display_name }}</span>
             on <span class="date">{{ question.creation_date|date }}, {{ question.creation_date|time }}</span>
             {% for t in question.tags %}
-                <span class="tag"><a href="#">{{ t }}</a></span>
+                <span class="tag"><a href="{% url "qa-search" %}?tags={{ t }}">{{ t }}</a></span>
             {% endfor %}
           </p>
         </div>

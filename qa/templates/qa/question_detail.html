@@ -15,7 +15,7 @@
         {% if object.tags %}
           <span class="tags">
             {% for t in object.tags %}
-              <span class="tag"><a href="#">{{ t }}</a></span>
+              <span class="tag"><a href="{% url "qa-search" %}?tags={{ t }}">{{ t }}</a></span>
             {% endfor %}
           </span>
         {% endif %}
