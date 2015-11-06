@@ -1,7 +1,7 @@
 from django.conf import settings
 
 from elasticsearch_dsl import DocType, Date, String, Nested, Object, Index, \
-    MetaField, analyzer, FacetedSearch, A, Q
+    MetaField, analyzer, FacetedSearch, Q, TermsFacet, DateHistogramFacet
 
 # user is repeated in several places, reuse a field definition
 user_field = Object(properties={
@@ -49,10 +49,9 @@ class QASearch(FacetedSearch):
     fields = ['tags', 'title', 'body']
 
     facets = {
-        'tags': A('terms',
-            field='tags'),
+        'tags': TermsFacet(field='tags'),
 
-        'months': A('date_histogram',
+        'months': DateHistogramFacet(
             field='creation_date',
             interval='month',
             min_doc_count=0),
