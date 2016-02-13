@@ -1,7 +1,7 @@
 from django.conf import settings
 
 from elasticsearch_dsl import DocType, Date, String, Nested, Object, Index, \
-    MetaField, analyzer, FacetedSearch, Q, TermsFacet, DateHistogramFacet
+    MetaField, analyzer, FacetedSearch, Q, TermsFacet, DateHistogramFacet, SF
 
 # user is repeated in several places, reuse a field definition
 user_field = Object(properties={
@@ -64,5 +64,11 @@ class QASearch(FacetedSearch):
         q = Q('multi_match', fields=['tags^10', 'title', 'body'], query=query)
         # also find questions that have answers matching query
         q |= Q('has_child', type='answer', query=Q('match', body=query))
+        # take the popularity field into account when sorting
+        search = search.query(
+            'function_score',
+            query=q,
+            functions=[SF('field_value_factor', field='popularity')]
+        )
 
-        return search.query(q)
+        return search
