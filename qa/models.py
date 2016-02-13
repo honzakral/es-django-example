@@ -90,7 +90,7 @@ class Question(Post):
                 'last_editor': self.last_editor.to_search(),
                 'last_edit_date': self.last_edit_date
             })
-        return QuestionDoc(meta={'id': d.pop('_id')}, **d)
+        return QuestionDoc(**d)
 
 class Answer(Post):
     question = models.ForeignKey(Question)
