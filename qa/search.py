@@ -71,7 +71,7 @@ class QASearch(FacetedSearch):
                 'highlight': {
                     "pre_tags": ["[[["],
                     "post_tags": ["]]]"],
-                    'fields': {'body': {}}
+                    'fields': {'body': {'fragment_size': 30}}
                 },
                 '_source': False,
                 'size': 1
