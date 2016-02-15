@@ -5,4 +5,4 @@ register = template.Library()
 
 @register.filter
 def highlight_fragments(input):
-    return safe(striptags(input).replace('[[[', '<em class="highlight">').replace(']]]', '</em>'))
+    return safe(striptags(' &hellip; '.join(input)).replace('[[[', '<em class="highlight">').replace(']]]', '</em>'))

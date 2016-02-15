@@ -40,7 +40,11 @@
                 {% endif %}
             </a>
         </h2>
-        {{ question.meta.inner_hits.answer.hits.hits.0.highlight.body|join:" &hellip; "|highlight_fragments }}
+
+        <div class="highlights">
+          {{ question.meta.highlight.body|highlight_fragments }}
+          {{ question.meta.inner_hits.answer.hits.hits.0.highlight.body|highlight_fragments }}
+        </div>
 
         <div class="header">
           <p class="meta">
