@@ -63,7 +63,21 @@ class QASearch(FacetedSearch):
         # query in tags, title and body for query
         q = Q('multi_match', fields=['tags^10', 'title', 'body'], query=query)
         # also find questions that have answers matching query
-        q |= Q('has_child', type='answer', query=Q('match', body=query))
+        q |= Q(
+            'has_child',
+            type='answer',
+            query=Q('match', body=query),
+            inner_hits={
+                'highlight': {
+                    "pre_tags": ["[[["],
+                    "post_tags": ["]]]"],
+                    'fields': {'body': {}}
+                },
+                '_source': False,
+                'size': 1
+            }
+        )
+
         # take the popularity field into account when sorting
         search = search.query(
             'function_score',

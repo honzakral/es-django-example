@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load search_helpers %}
+
 {% block "body" %}
 <div id="content" class="list">
   <section class="search">
@@ -38,6 +40,12 @@
                 {% endif %}
             </a>
         </h2>
+        {% for answer in question.meta.inner_hits.answer.hits.hits %}
+            {% for fragment in answer.highlight.body %}
+                {{ fragment|highlight_fragments }}
+            {% endfor %}
+        {% endfor %}
+
         <div class="header">
           <p class="meta">
             by <span class="author">{{ question.owner.display_name }}</span>
