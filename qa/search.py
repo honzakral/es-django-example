@@ -38,6 +38,7 @@ class Answer(Post):
 
 # create an index and register the doc types
 index = Index(settings.ES_INDEX)
+index.settings(number_of_shards=1, number_of_replicas=0)
 index.doc_type(Answer)
 index.doc_type(Question)
 

@@ -42,8 +42,14 @@
         </h2>
 
         <div class="highlights">
-          {{ question.meta.highlight.body|highlight_fragments }}
-          {{ question.meta.inner_hits.answer.hits.hits.0.highlight.body|highlight_fragments }}
+            {% if question.meta.highlight.body %}
+                &hellip; {{ question.meta.highlight.body|highlight_fragments }} &hellip; 
+            {% endif %}
+            {% if question.meta.inner_hits.answer.hits.hits.0.highlight.body %}
+                {% if not question.meta.highlight.body %} &hellip; {% endif %}
+                {{ question.meta.inner_hits.answer.hits.hits.0.highlight.body|highlight_fragments }}
+                &hellip;
+            {% endif %}
         </div>
 
         <div class="header">
