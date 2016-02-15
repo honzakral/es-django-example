@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(serialize=False, auto_created=True, verbose_name='ID', primary_key=True)),
                 ('creation_date', models.DateTimeField()),
                 ('last_activity_date', models.DateTimeField()),
-                ('score', models.IntegerField()),
+                ('rating', models.IntegerField()),
                 ('body', models.TextField()),
                 ('comment_count', models.PositiveIntegerField()),
             ],
@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(serialize=False, auto_created=True, verbose_name='ID', primary_key=True)),
                 ('creation_date', models.DateTimeField()),
-                ('score', models.IntegerField()),
+                ('rating', models.IntegerField()),
                 ('text', models.TextField()),
             ],
             options={
@@ -42,7 +42,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(serialize=False, auto_created=True, verbose_name='ID', primary_key=True)),
                 ('creation_date', models.DateTimeField()),
                 ('last_activity_date', models.DateTimeField()),
-                ('score', models.IntegerField()),
+                ('rating', models.IntegerField()),
                 ('body', models.TextField()),
                 ('comment_count', models.PositiveIntegerField()),
                 ('answer_count', models.PositiveIntegerField()),
@@ -62,7 +62,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(serialize=False, auto_created=True, verbose_name='ID', primary_key=True)),
                 ('creation_date', models.DateTimeField()),
-                ('score', models.IntegerField()),
+                ('rating', models.IntegerField()),
                 ('text', models.TextField()),
             ],
             options={

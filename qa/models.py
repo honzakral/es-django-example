@@ -29,7 +29,7 @@ class Post(models.Model):
     owner = models.ForeignKey(User)
     creation_date = models.DateTimeField()
     last_activity_date = models.DateTimeField()
-    score = models.IntegerField()
+    rating = models.IntegerField()
     body = models.TextField()
     comment_count = models.PositiveIntegerField()
 
@@ -45,7 +45,7 @@ class Post(models.Model):
             'creation_date': self.creation_date,
             'last_activity_date': self.last_activity_date,
             'body': self.body,
-            'popularity': self.score,
+            'rating': self.rating,
             'comments': [c.to_search() for c in self.comments],
             'comment_count': self.comment_count,
         }
@@ -102,7 +102,7 @@ class Answer(Post):
 class Comment(models.Model):
     owner = models.ForeignKey(User)
     creation_date = models.DateTimeField()
-    score = models.IntegerField()
+    rating = models.IntegerField()
     text = models.TextField()
 
     class Meta:
@@ -112,7 +112,7 @@ class Comment(models.Model):
         return {
             'owner': self.owner.to_search(),
             'creation_date': self.creation_date,
-            'popularity': self.score,
+            'rating': self.rating,
             'text': self.text,
         }
 

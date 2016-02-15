@@ -98,7 +98,7 @@ class Command(BaseCommand):
                 votes_down=user['DownVotes'],
                 age=user.get('Age', 0)
             )
-    
+
 
     def parse_comments(self, comments_file='Comments.xml'):
         """
@@ -125,7 +125,7 @@ class Command(BaseCommand):
                 post_id=comment['PostId'],
                 owner_id=comment['UserId'],
                 creation_date=date_parser.parse(comment['CreationDate']),
-                score=comment['Score'],
+                rating=comment['Score'],
                 text=comment['Text']
             )
 
@@ -177,7 +177,7 @@ class Command(BaseCommand):
                 owner_id=data['OwnerUserId'],
                 creation_date=date_parser.parse(data['CreationDate']),
                 last_activity_date=date_parser.parse(data['LastActivityDate']),
-                score=data['Score'],
+                rating=data['Score'],
                 body=data['Body'],
                 comment_count=data['CommentCount']
             )

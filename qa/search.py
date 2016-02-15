@@ -78,11 +78,11 @@ class QASearch(FacetedSearch):
             }
         )
 
-        # take the popularity field into account when sorting
+        # take the rating field into account when sorting
         search = search.query(
             'function_score',
             query=q,
-            functions=[SF('field_value_factor', field='popularity')]
+            functions=[SF('field_value_factor', field='rating')]
         )
 
         return search
