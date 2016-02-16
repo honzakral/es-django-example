@@ -87,3 +87,7 @@ class QASearch(FacetedSearch):
         )
 
         return search
+
+    def highlight(self, search):
+        return search.highlight('title')\
+            .highlight('body', pre_tags=['[[['], post_tags=[']]]'])
