@@ -1,9 +1,22 @@
 body {
   color: #222;
   background: #f8f8f8;
-  font-family: sans-serif;
+  font-family: 'Open Sans', sans-serif;
   line-height: 132%;
   margin: 0;
+}
+
+h1 {
+  color: #b3b3b3;
+  font-size: 44px;
+  font-weight: 100;
+  margin-left: 4.25em;
+  letter-spacing: -0.025em;
+}
+
+h1 a {
+  color: #b3b3b3;
+  text-decoration: none;
 }
 
 p {
@@ -20,13 +33,118 @@ a {
 
 #content {
   background: #fff;
-  width: 50em;
+  width: 65%;
   padding: 2em 4em;
   margin: 0 auto;
+  box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
+}
+
+.search {
+  padding-bottom: 1em;
+  margin-bottom: 2em;
+  border-bottom: 4px solid #999;
+  position: relative;
+}
+
+.search input[name=q] {
+  color: #666;
+  background: #fafafa;
+  font-size: 24px;
+  font-weight: bolder;
+  padding: 0.5em;
+  width: 96%;
+  height: 24px;
+  border: 1px solid #b2b2b2;
+  border-top-left-radius: 0.2em;
+  border-bottom-left-radius: 0.2em;
+}
+
+.search button[type=submit] {
+  color: #fff;
+  background: 1px solid #b2b2b2;
+  border: none;
+  font-size: 38px;
+  border-top-right-radius: 0.2em;
+  border-bottom-right-radius: 0.2em;
+  height: 50px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.search button[type=submit]:hover {
+  color: #333;
+  cursor: pointer;
+}
+
+.search .facet {
+  clear: both;
+  position: relative;
+  margin: 1em 0 1em 0;
+}
+
+.search .facet-label {
+  position: absolute;
+  top: 0.75em;
+  left: 0;
+}
+
+.search ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0.5em 0 0.5em 4em;
+  float: left;
+}
+
+.search ul li {
+  color: #000;
+  background: #e6e6e6;
+  font-weight: normal;
+  padding: 0.25em 0.5em 0.3em 0.5em;
+  margin-right: 0.5em;
+  border-radius: 0.25em;
+  display: inline;
+}
+
+.search ul li.selected {
+  font-weight: normal;
+  background: #b3b3b3;
+}
+
+.search ul li label {
+  display: inline-block;
+  position: relative;
+  top: 1px;
+}
+
+.search ul li label .count {
+  color: #fafafa;
+  background-color: #999999;
+  font-size: 0.6em;
+  font-weight: bolder;
+  text-align: center;
+  border-radius: 2.2em;
+  width: 2.2em;
+  height: 2.2em;
+  display: inline-block;
+  position: relative;
+  bottom: 0.25em;
+}
+
+.search ul li input {
+  padding: 0;
+  margin: 0;
+}
+
+.search .facet-label {
+  color: #999;
+  font-size: 80%;
+  font-weight: 100;
+  text-transform: uppercase;
 }
 
 .meta .author {
-  font-weight: bolder;
+  font-weight: bold;
+  font-size: 110%;
 }
 .meta .author a {
   text-decoration: none;
@@ -36,46 +154,51 @@ a {
 }
 
 .question {
-  margin: 0 0 1em 0;
-  padding: 0 0 0 0;
-}
-
-.questions .question {
-  padding: 0 0 1em 0;
+  margin: 0 0 2em 0;
+  padding: 0 0 2em 0;
   border-bottom: 1px solid #999;
 }
 
-.question .header {
-  font-size: 90%;
-}
-
-.question h1,
 .question h2 {
   color: #444;
-  font-family: serif;
   font-weight: 100;
   letter-spacing: -1px;
-  padding: 0 0 0.5em 0;
-  margin: 0 0 0.5em 0;
-  text-shadow: 1px 1px 0px rgba(0,0,0,0.2);
+  padding: 0;
+  margin: 0;
 }
 
-.question h1 {
-  font-size: 32px;
-  border-bottom: 1px solid #d0d0d0;
+.question a {
+  text-decoration: none;
 }
 
 .question h2 {
   font-size: 26px;
 }
 
-.question .meta {
-  color: #666;
+.question h2 em,
+.question em.highlight {
+  font-weight: bold;
+  font-style: normal;
+  text-shadow: 0px 0px 5px rgba(157,231,250,0.7);
+  text-shadow: 0px 0px 5px rgba(195,171,138,0.7);
 }
 
-.question .meta .tags {
-  display: inline-block;
-  float: right;
+.question .highlights {
+  color: #666666;
+  font-size: 80%;
+  margin: 1em 0 0.5em 0;
+  padding: 0.5em 0 0.5em 0;
+  border-top: 1px solid #fafafa;
+  border-bottom: 1px solid #fafafa;
+}
+
+.question .meta {
+  color: #666;
+  font-size: 90%;
+}
+
+.question .meta .date {
+  margin-right: 0.5em;
 }
 
 .question .meta .tag {
@@ -84,6 +207,8 @@ a {
   background: #e0e0e0;
   padding: 0.25em 0.5em;
   border-radius: 0.75em;
+  position: relative;
+  bottom: 1px;
 }
 
 .question .meta .tag a {

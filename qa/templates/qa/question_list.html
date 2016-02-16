@@ -4,27 +4,39 @@
 
 {% block "body" %}
 <div id="content" class="list">
+
   <section class="search">
     <form action="{% url "qa-search" %}" method="GET">
-      <ul>
-        {% for month, count, selected in search.facets.months %}
-          <li>
-            <input type="checkbox" name="months" id="months-{{ forloop.counter }}" value="{{ month.isoformat }}"{% if selected %} checked="true"{% endif %}>
-            <label for="months-{{ forloop.counter }}">{{ month|date:"F Y" }} ({{ count }})</label>
-          </li>
-        {% endfor %}
-      </ul>
-      <ul>
-        {% for t, count, selected in search.facets.tags %}
-          <li>
-            <input type="checkbox" name="tags" id="tags-{{ t}}" value="{{ t }}"{% if selected %} checked="true"{% endif %}>
-            <label for="tags-{{ t }}">{{ t }} ({{ count }})</label>
-          </li>
-        {% endfor %}
-      </ul>
+      <input type="text" name="q" results="5" autosave="stack" placeholder="Type your query and press enter..." value="{{ search.query_string|default:"" }}" />
+      <button type="submit">Search</button>
 
-      <input type="text" name="q" value="{{ search.query_string|default:"" }}" />
-      <input type="submit" value="Search!">
+      {% if search %}
+        <div class="facet">
+          <span class="facet-label">Months</span>
+          <ul class="months">
+            {% for month, count, selected in search.facets.months %}
+              <li class="{% if selected %}selected{% endif %}">
+                <input type="checkbox" name="months" id="months-{{ forloop.counter }}" value="{{ month.isoformat }}"{% if selected %} checked="true"{% endif %}>
+                <label for="months-{{ forloop.counter }}">{{ month|date:"F Y" }} <span class="count">{{ count }}</span></label>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div class="facet">
+          <span class="facet-label">Tags</span>
+          <ul class="tags">
+            {% for t, count, selected in search.facets.tags %}
+              <li class="{% if selected %}selected{% endif %}">
+                <input type="checkbox" name="tags" id="tags-{{ t}}" value="{{ t }}"{% if selected %} checked="true"{% endif %}>
+                <label for="tags-{{ t }}">{{ t }} <span class="count">{{ count }}</span></label>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div style="clear:both"></div>
+      {% endif %}
     </form>
   </section>
 
@@ -43,7 +55,7 @@
 
         <div class="highlights">
             {% if question.meta.highlight.body %}
-                &hellip; {{ question.meta.highlight.body|highlight_fragments }} &hellip; 
+                &hellip; {{ question.meta.highlight.body|highlight_fragments }} &hellip;
             {% endif %}
             {% if question.meta.inner_hits.answer.hits.hits.0.highlight.body %}
                 {% if not question.meta.highlight.body %} &hellip; {% endif %}
@@ -52,14 +64,13 @@
             {% endif %}
         </div>
 
-        <div class="header">
-          <p class="meta">
-            by <span class="author">{{ question.owner.display_name }}</span>
-            on <span class="date">{{ question.creation_date|date }}, {{ question.creation_date|time }}</span>
-            {% for t in question.tags %}
-                <span class="tag"><a href="{% url "qa-search" %}?tags={{ t }}">{{ t }}</a></span>
-            {% endfor %}
-          </p>
+        <div class="meta">
+          Asked
+          by <span class="author">{{ question.owner.display_name }}</span>
+          on <span class="date">{{ question.creation_date|date }}, {{ question.creation_date|time }}</span>
+          {% for t in question.tags %}
+              <span class="tag"><a href="{% url "qa-search" %}?tags={{ t }}">{{ t }}</a></span>
+          {% endfor %}
         </div>
       </div>
     {% endfor %}

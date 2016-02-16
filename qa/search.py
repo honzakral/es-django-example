@@ -50,7 +50,7 @@ class QASearch(FacetedSearch):
     fields = ['tags', 'title', 'body']
 
     facets = {
-        'tags': TermsFacet(field='tags'),
+        'tags': TermsFacet(field='tags', size=5),
 
         'months': DateHistogramFacet(
             field='creation_date',

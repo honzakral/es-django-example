@@ -5,9 +5,11 @@
     {% block "title" %}Stack Exchange{% endblock %}
   </title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700,600,800' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="{% static "base.css" %}">
 </head>
 <body>
+  <h1><a href="{% url "qa-list" %}">coffee.stackexchange.org</a></h1>
   {% block "body" %} {% endblock %}
 </body>
 </html>
