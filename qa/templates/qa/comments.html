@@ -3,7 +3,7 @@
     <div class="comment">
       <div class="comment-meta">
         <p>
-          comment by <span class="author"><a href="#">{{ comment.owner.display_name }}</a></span>
+          Comment by <span class="author">{{ comment.owner.display_name }}</span>
           on <span class="date">{{ comment.creation_date|date }}, {{ comment.creation_date|time }}</span>
           {% if comment.score %}
               with score {{ comment.score }}

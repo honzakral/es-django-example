@@ -11,7 +11,7 @@ h1 {
   font-size: 44px;
   font-weight: 100;
   margin-left: 4.25em;
-  letter-spacing: -0.025em;
+  letter-spacing: -3px;
 }
 
 h1 a {
@@ -72,11 +72,12 @@ a {
   right: 0;
 }
 .search button[type=submit]:hover {
-  color: #333;
+  color: #666;
   cursor: pointer;
 }
 
 .search .facet {
+  font-size: 85%;
   clear: both;
   position: relative;
   margin: 1em 0 1em 0;
@@ -107,7 +108,13 @@ a {
 
 .search ul li.selected {
   font-weight: normal;
+  color: #fff;
   background: #b3b3b3;
+}
+
+.search ul li.selected label .count {
+ color: #b3b3b3;
+ background: #fafafa;
 }
 
 .search ul li label {
@@ -119,10 +126,12 @@ a {
 .search ul li label .count {
   color: #fafafa;
   background-color: #999999;
-  font-size: 0.6em;
+  font-size: 40%;
   font-weight: bolder;
   text-align: center;
   border-radius: 2.2em;
+  margin: 0 0.5em 0 0.5em;
+  padding: 0;
   width: 2.2em;
   height: 2.2em;
   display: inline-block;
@@ -142,8 +151,9 @@ a {
   text-transform: uppercase;
 }
 
-.meta .author {
-  font-weight: bold;
+.meta .author,
+.comment .author {
+  font-weight: 600;
   font-size: 110%;
 }
 .meta .author a {
@@ -154,14 +164,22 @@ a {
 }
 
 .question {
-  margin: 0 0 2em 0;
-  padding: 0 0 2em 0;
+  margin: 0 0 1.25em 0;
+  padding: 0 0 1.75em 0;
   border-bottom: 1px solid #999;
+}
+
+.question.detail {
+  border-bottom: none;
+  margin-bottom: 1em;
+  padding-bottom: 1em;
 }
 
 .question h2 {
   color: #444;
+  font-size: 26px;
   font-weight: 100;
+  line-height: 140%;
   letter-spacing: -1px;
   padding: 0;
   margin: 0;
@@ -171,22 +189,24 @@ a {
   text-decoration: none;
 }
 
-.question h2 {
-  font-size: 26px;
+.question.detail h2 {
+  font-size: 34px;
+  font-weight: 100;
+  letter-spacing: -2px;
+  margin: 0.25em 0 0 0;
 }
 
 .question h2 em,
 .question em.highlight {
   font-weight: bold;
   font-style: normal;
-  text-shadow: 0px 0px 5px rgba(157,231,250,0.7);
-  text-shadow: 0px 0px 5px rgba(195,171,138,0.7);
+  text-shadow: 0px 0px 5px #d9d9d9;
 }
 
 .question .highlights {
   color: #666666;
   font-size: 80%;
-  margin: 1em 0 0.5em 0;
+  margin: 0.5em 0 0.5em 0;
   padding: 0.5em 0 0.5em 0;
   border-top: 1px solid #fafafa;
   border-bottom: 1px solid #fafafa;
@@ -195,6 +215,10 @@ a {
 .question .meta {
   color: #666;
   font-size: 90%;
+}
+
+.question.detail .meta {
+  margin: 1em 0 1.25em 0;
 }
 
 .question .meta .date {
@@ -256,10 +280,15 @@ a {
   font-size: 90%;
 }
 
+.answer .comments {
+  border-top: 1px dotted #d0d0d0;
+}
+
 .answer .comment,
 .question .comment {
   margin: 0;
   padding: 0.75em 0 0 0;
+  margin: 0 0 0.75em 0;
   border-top: 1px dotted #d0d0d0;
 }
 
@@ -270,12 +299,18 @@ a {
 
 .answer .comment .comment-meta,
 .question .comment .comment-meta {
+  color: #666;
   font-size: 95%;
+}
+.answer .comment .comment-meta a,
+.question .comment .comment-meta a {
+  color: #666;
 }
 
 .answer .comment .body,
 .question .comment .body {
   font-size: 100%;
+  line-height: 140%;
   background: transparent;
   padding: 0;
   margin: 0;
@@ -292,9 +327,9 @@ a {
 
 .answer .meta {
   color: #fff;
-  padding: 0.3em 0.5em 0.25em 0.5em;
-  background: #222 !important;
-  border-radius: 0.15em;
+  background: #666 !important;
+  padding: 0.25em 0.5em 0.3em 0.5em;
+  border-radius: 0.25em;
 }
 
 .answer .meta * {
@@ -319,6 +354,7 @@ a {
 }
 
 .answer.accepted .meta {
+  background: #222 !important;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
@@ -327,6 +363,8 @@ a {
   background: #fafafa;
   margin-top: 0;
   padding-top: 0.5em;
+  border-bottom-left-radius: 0.25em;
+  border-bottom-right-radius: 0.25em;
 }
 
 .list .pagination {

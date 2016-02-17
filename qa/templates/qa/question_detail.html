@@ -35,7 +35,7 @@
       <div class="answer{% ifequal answer.pk object.accepted_answer_id %} accepted{% endifequal %}">
         <p class="meta">
           {% ifequal answer.pk object.accepted_answer_id %}Accepted a{% else %}A{% endifequal %}nswer by
-          <span class="author"><a href="#">{{ answer.owner.display_name }}</a></span>
+          <span class="author">{{ answer.owner.display_name }}</span>
           on <span class="date">{{ answer.creation_date|date }}, {{ answer.creation_date|time }}</span>
           {% if answer.score %}
               with score {{ answer.score }}
