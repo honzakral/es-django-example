@@ -1,2 +1,2 @@
-elasticsearch-dsl
+git+https://github.com/elastic/elasticsearch-dsl-py.git#egg=elasticsearch-dsl
 Django>=1.8
