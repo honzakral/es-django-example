@@ -13,7 +13,7 @@ To install::
     # install requirements
     pip install -r requirements.txt
 
-    # create dabatase
+    # create database
     python manage.py migrate
 
     # load SE dump into the DB
