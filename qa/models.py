@@ -26,7 +26,7 @@ class User(models.Model):
         }
 
 class Post(models.Model):
-    owner = models.ForeignKey(User)
+    owner = models.ForeignKey(User, blank=True, null=True)
     creation_date = models.DateTimeField()
     last_activity_date = models.DateTimeField()
     rating = models.IntegerField()
@@ -38,9 +38,8 @@ class Post(models.Model):
         return self.comment_set.order_by('creation_date')
 
     def to_search(self):
-        return {
+        data = {
             '_id': self.pk,
-            'owner': self.owner.to_search(),
             'id': self.pk,
             'creation_date': self.creation_date,
             'last_activity_date': self.last_activity_date,
@@ -49,6 +48,10 @@ class Post(models.Model):
             'comments': [c.to_search() for c in self.comments],
             'comment_count': self.comment_count,
         }
+        if self.owner:
+            data['owner'] = self.owner.to_search()
+        return data
+            
 
     class Meta:
         abstract = True
@@ -100,7 +103,7 @@ class Answer(Post):
         return AnswerDoc(meta={'id': d.pop('_id'), 'parent': self.question_id}, **d)
 
 class Comment(models.Model):
-    owner = models.ForeignKey(User)
+    owner = models.ForeignKey(User, blank=True, null=True)
     creation_date = models.DateTimeField()
     rating = models.IntegerField()
     text = models.TextField()
@@ -109,12 +112,15 @@ class Comment(models.Model):
         abstract = True
 
     def to_search(self):
-        return {
-            'owner': self.owner.to_search(),
+        data = {
             'creation_date': self.creation_date,
             'rating': self.rating,
             'text': self.text,
         }
+        if self.owner:
+            data['owner'] = self.owner.to_search()
+        return data
+            
 
 
 class QuestionComment(Comment):

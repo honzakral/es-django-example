@@ -123,7 +123,7 @@ class Command(BaseCommand):
 
             yield cls.objects.create(
                 post_id=comment['PostId'],
-                owner_id=comment['UserId'],
+                owner_id=comment.get('UserId'),
                 creation_date=date_parser.parse(comment['CreationDate']),
                 rating=comment['Score'],
                 text=comment['Text']
@@ -174,13 +174,15 @@ class Command(BaseCommand):
 
             post = cls(
                 id=data['Id'],
-                owner_id=data['OwnerUserId'],
                 creation_date=date_parser.parse(data['CreationDate']),
                 last_activity_date=date_parser.parse(data['LastActivityDate']),
                 rating=data['Score'],
                 body=data['Body'],
                 comment_count=data['CommentCount']
             )
+
+            if 'OwnerUserId' in data:
+                post.owner_id = data['OwnerUserId']
 
             if isinstance(post, Question):
                 post.answer_count = data['AnswerCount']
