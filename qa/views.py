@@ -7,6 +7,7 @@ from django.shortcuts import render
 
 from .models import Question
 from .search import QASearch
+from .forms import SearchForm
 
 class QuestionList(ListView):
     model = Question
@@ -18,11 +19,17 @@ class QuestionDetail(DetailView):
     model = Question
 
 def search(request):
-    filters = {
-        'tags': request.GET.getlist('tags', []),
-        'months': list(map(parser.parse, request.GET.getlist('months', []))),
-    }
-    s = QASearch(query=request.GET.get('q', None), filters=filters)
+    q = None
+    filters={}
+
+    form = SearchForm(request.GET)
+    if form.is_valid():
+        filters = {
+            'tags': form.cleaned_data['tags'],
+            'months': form.cleaned_data['months']
+        }
+        q = form.cleaned_data['q']
+    s = QASearch(query=q, filters=filters)
 
     paginator = Paginator(s, 10)
     page_no = request.GET.get('page')
