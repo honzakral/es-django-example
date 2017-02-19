@@ -16,7 +16,7 @@
           <ul class="months">
             {% for month, count, selected in search.facets.months %}
               <li class="{% if selected %}selected{% endif %}">
-                <input type="checkbox" name="months" id="months-{{ forloop.counter }}" value="{{ month.isoformat }}"{% if selected %} checked="true"{% endif %}>
+                <input type="checkbox" name="months" id="months-{{ forloop.counter }}" value="{{ month|date:"Y-m" }}"{% if selected %} checked="true"{% endif %}>
                 <label for="months-{{ forloop.counter }}">{{ month|date:"F Y" }} <span class="count">{{ count }}</span></label>
               </li>
             {% endfor %}
