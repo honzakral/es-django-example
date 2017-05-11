@@ -12,9 +12,3 @@ class QAConfig(AppConfig):
 
     def ready(self):
         connections.configure(**settings.ES_CONNECTIONS)
-        try:
-            # FIXME: this shouldn't be run before index_data!
-            Question._doc_type.refresh()
-            Answer._doc_type.refresh()
-        except NotFoundError:
-            pass
