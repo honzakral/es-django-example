@@ -1,0 +1,51 @@
+version: '3.1'
+services:
+  web:
+    image: fxdgear/ds-django-example:latest
+    build: .
+    ports:
+      - 80:80
+    volumes:
+      - .:/code
+    command: python manage.py runserver 0.0.0.0:80
+    environment:
+      - ALLOWED_HOSTS=localhost,127.0.0.1
+      - ES_INDEX=stack
+      - DEBUG=True
+      - ES_USE_SSL=False
+      - ES_HOST=elasticsearch
+    deploy:
+      mode: 'replicated'
+      replicas: 1
+    secrets:
+      - elastic_cloud_host
+    networks:
+      - esnet
+
+  elasticsearch:
+    image: 'fxdgear/elasticsearch:5.4'
+    environment:
+      - node.max_local_storage_nodes=1
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    networks:
+      - esnet
+    deploy:
+      mode: 'replicated'
+      replicas: 1
+      resources:
+        limits:
+          memory: 1g
+        ulimits:
+          memlock:
+            soft: -1
+            hard: -1
+
+networks:
+  esnet:
+secrets:                        # top level secrets block
+  elastic_cloud_host:
+    file: secrets/elastic_dev_host.txt
+volumes:
+  esdata:
+    driver: local

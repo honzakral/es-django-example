@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import certifi
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -20,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = '6q3dr8ffl^d79npzgr6wg!r$oe^a(au_o=&31v^orh&t)e=dp!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', False) == 'True'
 
 TEMPLATE_DEBUG = True
 
@@ -39,7 +40,7 @@ TEMPLATES = [
     },
 ]
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [host for host in os.environ['ALLOWED_HOSTS'].split(",")]
 
 
 # Application definition
@@ -98,13 +99,30 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 
-ES_INDEX = 'stack'
 
+if os.path.isfile('/run/secrets/elastic_cloud_auth'):
+    with open('/run/secrets/elastic_cloud_auth', 'r') as f:
+        ES_AUTH = f.read().strip()
+else:
+    ES_AUTH = ""
+
+ES_HOST = os.environ.get('ES_HOST', 'http://localhost:9200')
+
+ES_INDEX = os.environ.get('ES_INDEX', 'stack')
 ES_INDEX_SETTINGS = {
     'number_of_shards': 1,
     'number_of_replicas': 0,
 }
 
 ES_CONNECTIONS = {
-    'default': {},
+    'default': {
+        'hosts': [{
+            'host': ES_HOST,
+            'http_auth': ES_AUTH,
+            'verify_certs': False,
+            'use_ssl': os.environ.get('ES_USE_SSL', False) == 'True',
+            'port': os.environ.get('ES_PORT', '9200'),
+        }]
+    }
 }
+
