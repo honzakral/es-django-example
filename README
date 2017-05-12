@@ -63,8 +63,17 @@ Then you can index the data::
 	python manage.py index_data
 
 
+Now you can naviaget to http://localhost
+
+
 Deploying with docker swarm
 ----------------------------
+
+Build and push the image to the repository::
+
+	docker-compose build
+	docker-compose push
+
 
 To deploy this with docker swarm. Make sure you have access to a swarm cluster and simply run::
 
