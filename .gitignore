@@ -6,3 +6,5 @@
 dist
 *.egg
 db.sqlite3
+data/*
+.DS_Store

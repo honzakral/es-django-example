@@ -1,0 +1,32 @@
+version: '3.1'
+services:
+  web:
+    image: fxdgear/ds-django-example:latest
+    ports:
+      - 80:80
+    command: python manage.py runserver 0.0.0.0:80
+    environment:
+      - DEBUG=True
+      - ALLOWED_HOSTS=pycon2017.demo.elastic.co
+      - ES_INDEX=stack
+      - ES_USE_SSL=True
+      - ES_PORT=9243
+      - ES_HOST=c7380b096a105952c5f309440e28b40c.us-east-1.aws.found.io
+    deploy:
+      mode: 'replicated'
+      replicas: 1
+    secrets:
+      - elastic_cloud_auth
+    networks:
+      - esnet
+
+  db:
+    image: postgres
+    networks:
+      - esnet
+
+networks:
+  esnet:
+secrets:                        # top level secrets block
+  elastic_cloud_auth:
+    external: true

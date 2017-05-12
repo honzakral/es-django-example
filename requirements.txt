@@ -1,2 +1,5 @@
 elasticsearch-dsl>=2.0.0
 Django>=1.8
+psycopg2
+ipdb
+certifi
