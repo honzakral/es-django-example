@@ -1,7 +1,7 @@
 version: '3.1'
 services:
   web:
-    image: fxdgear/ds-django-example:latest
+    image: fxdgear/es-django-example:latest
     build: .
     ports:
       - 80:80
@@ -26,10 +26,13 @@ services:
     image: 'fxdgear/elasticsearch:5.4'
     environment:
       - node.max_local_storage_nodes=1
+      - ES_HOST=http://localhost:9200
     volumes:
       - esdata:/usr/share/elasticsearch/data
     networks:
       - esnet
+    ports:
+      - "9200:9200"
     deploy:
       mode: 'replicated'
       replicas: 1

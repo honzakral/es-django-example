@@ -1,5 +1,4 @@
-#elasticsearch-dsl>=2.0.0
--e git://github.com/elastic/elasticsearch-dsl-py.git#egg=elasticsearch_dsl
+elasticsearch-dsl>=2.0.0
 Django>=1.8
 psycopg2
 ipdb
