@@ -23,8 +23,6 @@ SECRET_KEY = '6q3dr8ffl^d79npzgr6wg!r$oe^a(au_o=&31v^orh&t)e=dp!'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', False) == 'True'
 
-TEMPLATE_DEBUG = True
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -40,7 +38,7 @@ TEMPLATES = [
     },
 ]
 
-ALLOWED_HOSTS = [host for host in os.environ['ALLOWED_HOSTS'].split(",")]
+ALLOWED_HOSTS = [host for host in os.environ.get('ALLOWED_HOSTS', '').split(",")]
 
 
 # Application definition
@@ -106,7 +104,7 @@ if os.path.isfile('/run/secrets/elastic_cloud_auth'):
 else:
     ES_AUTH = ""
 
-ES_HOST = os.environ.get('ES_HOST', 'http://localhost:9200')
+ES_HOST = os.environ.get('ES_HOST', 'localhost')
 
 ES_INDEX = os.environ.get('ES_INDEX', 'stack')
 ES_INDEX_SETTINGS = {
