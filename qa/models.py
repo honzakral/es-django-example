@@ -51,7 +51,7 @@ class Post(models.Model):
         if self.owner:
             data['owner'] = self.owner.to_search()
         return data
-            
+
 
     class Meta:
         abstract = True
@@ -88,11 +88,14 @@ class Question(Post):
             'answer_count': self.answer_count,
             'has_accepted_answer': bool(self.accepted_answer_id),
         })
-        if self.last_editor:
-            d.update({
-                'last_editor': self.last_editor.to_search(),
-                'last_edit_date': self.last_edit_date
-            })
+        if self.last_editor_id:
+            try:
+                d.update({
+                    'last_editor': self.last_editor.to_search(),
+                    'last_edit_date': self.last_edit_date
+                })
+            except models.ObjectDoesNotExist:
+                pass
         return QuestionDoc(**d)
 
 class Answer(Post):
@@ -120,7 +123,7 @@ class Comment(models.Model):
         if self.owner:
             data['owner'] = self.owner.to_search()
         return data
-            
+
 
 
 class QuestionComment(Comment):
