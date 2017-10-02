@@ -38,7 +38,7 @@ TEMPLATES = [
     },
 ]
 
-ALLOWED_HOSTS = [host for host in os.environ.get('ALLOWED_HOSTS', '').split(",")]
+ALLOWED_HOSTS = [host for host in os.environ.get('ALLOWED_HOSTS', 'localhost').split(",")]
 
 
 # Application definition
