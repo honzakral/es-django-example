@@ -39,10 +39,10 @@ services:
       resources:
         limits:
           memory: 1g
-        ulimits:
-          memlock:
-            soft: -1
-            hard: -1
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
 
 networks:
   esnet:
