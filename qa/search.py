@@ -1,11 +1,12 @@
 from django.conf import settings
 
-from elasticsearch_dsl import DocType, Date, String, Nested, Object, Index, \
-    MetaField, analyzer, FacetedSearch, Q, TermsFacet, DateHistogramFacet, SF
+from elasticsearch_dsl import DocType, Date, Text, Nested, Object, Index, \
+    MetaField, analyzer, FacetedSearch, Q, TermsFacet, DateHistogramFacet, SF, \
+    Keyword
 
 # user is repeated in several places, reuse a field definition
 user_field = Object(properties={
-    'display_name': String(fields={'raw': String(index='not_analyzed')}),
+    'display_name': Keyword(fields={'raw': Keyword()}),
 })
 
 # create our own analyzer
@@ -24,10 +25,10 @@ class Post(DocType):
     last_activity_date = Date()
     # have comments as nested type
     comments = Nested(properties={'owner': user_field})
-    body = String(analyzer=html_strip)
+    body = Text(analyzer=html_strip)
 
 class Question(Post):
-    tags = String(index='not_analyzed', multi=True)
+    tags = Keyword(multi=True)
     last_editor = user_field
     last_edit_date = Date()
 
